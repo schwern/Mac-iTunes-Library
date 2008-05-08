@@ -1,0 +1,14 @@
+--- #YAML:1.0
+name:                Mac-iTunes-Library
+version:             0.1
+abstract:            ~
+license:             perl
+author:              
+    - Drew Stephens <drewgstephens@gmail.com>
+generated_by:        ExtUtils::MakeMaker version 6.44
+distribution_type:   module
+requires:     
+    XML::Parser:                   0
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3
