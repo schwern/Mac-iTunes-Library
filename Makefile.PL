@@ -1,3 +1,6 @@
+# $Revision: 49 $
+# $Date: 2008-08-05 22:52:19 -0700 (Tue, 05 Aug 2008) $
+# $Author: drewgstephens $
 use 5.006;
 use ExtUtils::MakeMaker;
 
