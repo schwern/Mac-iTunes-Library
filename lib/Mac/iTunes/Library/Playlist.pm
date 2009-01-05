@@ -11,7 +11,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 =head1 NAME
 
@@ -345,12 +345,12 @@ L<Mac::iTunes::Library>, L<Mac::iTunes::Library::Item>
 
 =head1 AUTHOR
 
-Drew Stephens <drewgstephens@gmail.com>, http://dinomite.net
+Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 54 $
-$Date: 2008-08-05 23:51:26 -0700 (Tue, 05 Aug 2008) $
+$Revision: 59 $
+$Date: 2009-01-04 22:59:26 -0800 (Sun, 04 Jan 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE

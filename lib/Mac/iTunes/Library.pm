@@ -11,7 +11,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 =head1 NAME
 
@@ -365,7 +365,25 @@ sub _type {
 
 =item items()
 
-Get the hash of Items (Artist->Name->[item, item]) contained in the library.
+Get the hash of Items (Artist->Name->[item, item]) contained in the library;
+artist names are the top level keys; accessing one gives you a hash-ref with
+keys of song names and array-refs as values.  Those array-refs contain
+Mac::iTunes::Library::Item objects.  Example traversal:
+
+# Assuming a previously created library
+%items = $library->items();
+foreach my $artist (keys %items) {
+    my $artistSongs = $items{$artist};
+
+    foreach my $songName (keys %$artistSongs) {
+        my $artistSongItems = $artistSongs->{$songName};
+
+        foreach my $item (@$artistSongItems) {
+            # Do something here to every item in the library
+            print $song->name() . "\n";
+        }
+    }
+}
 
 =cut
 
@@ -443,12 +461,12 @@ L<Mac::iTunes::Library::Playlist>
 
 =head1 AUTHOR
 
-Drew Stephens <drewgstephens@gmail.com>, http://dinomite.net
+Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 54 $
-$Date: 2008-08-05 23:51:26 -0700 (Tue, 05 Aug 2008) $
+$Revision: 59 $
+$Date: 2009-01-04 22:59:26 -0800 (Sun, 04 Jan 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE
