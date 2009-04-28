@@ -11,7 +11,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 
 =head1 NAME
 
@@ -349,8 +349,8 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 59 $
-$Date: 2009-01-04 22:59:26 -0800 (Sun, 04 Jan 2009) $
+$Revision: 61 $
+$Date: 2009-04-27 22:40:34 -0700 (Mon, 27 Apr 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE

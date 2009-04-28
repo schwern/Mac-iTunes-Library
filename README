@@ -1,4 +1,4 @@
-Mac-iTunes version 0.01
+Mac-iTunes version 0.04
 ==========================
 
 A representation of an iTunes library.
@@ -23,8 +23,8 @@ DEPENDENCIES
 
 SVN INFO
 
-$Revision: 49 $
-$Date: 2008-08-05 22:52:19 -0700 (Tue, 05 Aug 2008) $
+$Revision: 61 $
+$Date: 2009-04-27 22:40:34 -0700 (Mon, 27 Apr 2009) $
 $Author: drewgstephens $
 
 COPYRIGHT AND LICENCE

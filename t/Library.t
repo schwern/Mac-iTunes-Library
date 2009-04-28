@@ -3,8 +3,8 @@
 
 =head1 SVN INFO
 
-$Revision: 49 $
-$Date: 2008-08-05 22:52:19 -0700 (Tue, 05 Aug 2008) $
+$Revision: 60 $
+$Date: 2009-04-27 22:34:00 -0700 (Mon, 27 Apr 2009) $
 $Author: drewgstephens $
 
 =cut
@@ -12,7 +12,7 @@ $Author: drewgstephens $
 #########################
 use lib ".";
 use 5;
-use Test::More tests => 24;
+use Test::More tests => 27;
 BEGIN { use_ok('Mac::iTunes::Library::Item') };
 #########################
 
@@ -21,6 +21,9 @@ my %values = (
     'Track ID' => 1,
     'Name' => 'Track Name',
     'Artist' => 'Artist Name',
+    'Album Artist' => 'Album Artist Name',
+    'Composer' => 'Composer Name',
+    'Album' => 'Album Name',
     'Genre' => 'Genre Name',
     'Kind' => 'MPEG audio file',
     'Size' => 31337,
@@ -52,6 +55,9 @@ is($item->isa('Mac::iTunes::Library::Item'), 1, 'Object type');
 is($item->trackID(), $values{'Track ID'}, 'Get Track ID');
 is($item->name(), $values{'Name'}, 'Get Name');
 is($item->artist(), $values{'Artist'}, 'Get Artist');
+is($item->albumArtist(), $values{'Album Artist'}, 'Get Album Artist');
+is($item->composer(), $values{'Composer'}, 'Get Composer');
+is($item->album(), $values{'Album'}, 'Get Album');
 is($item->genre(), $values{'Genre'}, 'Get Genre');
 is($item->kind(), $values{'Kind'}, 'Get Kind');
 is($item->size(), $values{'Size'}, 'Get Size');

@@ -67,6 +67,14 @@ print "\nMost popular artists, by number of tracks:\n";
 print "\nMost popular artists, by playcount:\n";
 &top($topNum, $library->partist());
 
+# Album Artists
+print "\nMost popular album artists, by number of tracks:\n";
+&top($topNum, $library->albumArtist());
+
+# Album Artists, playcount
+print "\nMost popular album artists, by playcount:\n";
+&top($topNum, $library->palbumArtist());
+
 # Genres
 print "\nMost popular genres, by number of tracks:\n";
 &top($topNum, $library->genre());
@@ -125,8 +133,8 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 56 $
-$Date: 2009-01-04 22:53:38 -0800 (Sun, 04 Jan 2009) $
+$Revision: 60 $
+$Date: 2009-04-27 22:34:00 -0700 (Mon, 27 Apr 2009) $
 $Author: drewgstephens $
 
 =cut

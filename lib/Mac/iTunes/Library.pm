@@ -11,7 +11,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 
 =head1 NAME
 
@@ -64,6 +64,8 @@ sub new {
         Time => 0,          # Length of all tracks in milliseconds
         Artist => {},       # Artist counts in tracks
         PArtists => {},     # Artists counts by playcount
+        AlbumArtist => {},  # Album Artist counts in tracks
+        PAlbumArtists => {},# Album Artists counts by playcount
         Genre => {},        # Genre counts by tracks
         PGenre => {},       # Genre counts by playcount
         Type => {},         # Track types, file or URL
@@ -280,7 +282,7 @@ sub _artist {
     my $artist = shift;
     return unless ( defined $artist );
     $self->{'Artist'}{ $artist } += 1;
-} #artist
+} #_artist
 
 =item partist()
 
@@ -301,7 +303,48 @@ sub _partist {
     return unless ( defined $artist );
     return unless ( defined $num );
     $self->{'PArtists'}{ $artist } += $num;
+} #_partist
+
+=item albumArtist()
+
+Get the hash of the number of tracks for each albumArtist.
+
+=cut
+
+sub albumArtist {
+    my $self = shift;
+    return %{$self->{'AlbumArtist'}};
+} #albumArtist
+
+# Increment the track count for the given albumArtist
+# ($albumArtist)
+sub _albumArtist {
+    my $self = shift;
+    my $albumArtist = shift;
+    return unless ( defined $albumArtist );
+    $self->{'AlbumArtist'}{ $albumArtist } += 1;
+} #_albumArtist
+
+=item palbumArtist()
+
+Get the hash of the number of plays (playcount) for each albumArtist.
+
+=cut
+
+sub palbumArtist {
+    my $self = shift;
+    return %{$self->{'PAlbumArtists'}};
 } #partist
+
+# Increment the playcount for the given albumArtist by a given amount
+# ($albumArtist, $num)
+sub _palbumArtist {
+    my $self = shift;
+    my ($albumArtist, $num) = @_;
+    return unless ( defined $albumArtist );
+    return unless ( defined $num );
+    $self->{'PAlbumArtists'}{ $albumArtist } += $num;
+} #_palbumArtist
 
 =item genre()
 
@@ -430,23 +473,27 @@ sub add {
         unless ($item->isa("Mac::iTunes::Library::Item"));
 
     my $artist = $item->artist();
+    my $albumArtist = $item->albumArtist();
     my $name = $item->name();
     my $genre = $item->genre();
     my $playCount = $item->playCount();
 
     # Deal with possible null values
     $artist = 'Unknown' unless (defined $artist);
+    $albumArtist = 'Unknown' unless (defined $albumArtist);
     $name = 'Unknown' unless (defined $name);
     $genre = 'Unknown' unless (defined $genre);
     $playCount = 0 unless (defined $playCount);
 
     # Tally up the item's data
     $self->_artist($artist);
+    $self->_albumArtist($albumArtist);
     $self->_genre($genre);
     $self->_num();
     $self->_size($item->size()) if (defined $item->size()); # Streams = null
     $self->_time($item->totalTime());
     $self->_partist($item->artist(), $item->playCount());
+    $self->_palbumArtist($item->albumArtist(), $item->playCount());
     $self->_pgenre($item->genre(), $item->playCount());
     $self->_type($item->trackType());
     $self->_item($item);
@@ -465,8 +512,8 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 59 $
-$Date: 2009-01-04 22:59:26 -0800 (Sun, 04 Jan 2009) $
+$Revision: 61 $
+$Date: 2009-04-27 22:40:34 -0700 (Mon, 27 Apr 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE
