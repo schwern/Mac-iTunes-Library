@@ -4,6 +4,7 @@ use 5.006;
 use warnings;
 use strict;
 use Carp;
+use Switch;
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -11,7 +12,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.4';
+our $VERSION = '0.5';
 
 my $dateRegex = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z';
 
@@ -77,7 +78,12 @@ an item
         'Play Count' => 1,
         'Play Date' => -1167613261,
         'Play Date UTC' => '2007-01-01T01:01:01Z',
+        'Skip Count' => 1,
+        'Skip Count UTC' => '2007-01-01T01:01:01Z',
         'Rating' => 50,
+        'Album Rating' => 50,
+        'Album Rating Computed' => 1,
+        'Compilation' => 1,
         'Persistent ID' => 'DAC2FC501CCA2031',
         'Track Type' => 'File',
         'Location' => 'file://localhost/Users/dinomite/Music/blink-182/Dude%20Ranch/Josie.mp3',
@@ -91,6 +97,7 @@ sub new {
     my $class = shift;
     my %params = @_;
 
+    # Initialize
     my $self = {
         'Track ID' => undef,
         'Name' => undef,
@@ -110,7 +117,12 @@ sub new {
         'Play Count' => undef,
         'Play Date' => undef,
         'Play Date UTC' => undef,
+        'Skip Count' => undef,
+        'Skip Count UTC' => undef,
         'Rating' => undef,
+        'Album Rating' => undef,
+        'Album Rating Computed' => undef,
+        'Compilation' => undef,
         'Persistent ID' => undef,
         'Track Type' => undef,
         'Location' => undef,
@@ -121,54 +133,47 @@ sub new {
     bless $self, $class;
 
     # Deal with parameters
-    if ( exists( $params{'Track ID'} ) ) {
-        trackID( $self, $params{'Track ID'} );
-    } if ( exists( $params{'Name'} ) ) {
-        name( $self, $params{'Name'} );
-    } if ( exists( $params{'Artist'} ) ) {
-        artist( $self, $params{'Artist'} );
-    } if ( exists( $params{'Album Artist'} ) ) {
-        albumArtist( $self, $params{'Album Artist'} );
-    } if ( exists( $params{'Composer'} ) ) {
-        composer( $self, $params{'Composer'} );
-    } if ( exists( $params{'Album'} ) ) {
-        album( $self, $params{'Album'} );
-    } if ( exists( $params{'Genre'} ) ) {
-        genre( $self, $params{'Genre'} );
-    } if ( exists( $params{'Kind'} ) ) {
-        kind( $self, $params{'Kind'} );
-    } if ( exists( $params{'Size'} ) ) {
-        size( $self, $params{'Size'} );
-    } if ( exists( $params{'Total Time'} ) ) {
-        totalTime( $self, $params{'Total Time'} );
-    } if ( exists( $params{'Year'} ) ) {
-        year( $self, $params{'Year'} );
-    } if ( exists( $params{'Date Modified'} ) ) {
-        dateModified( $self, $params{'Date Modified'} );
-    } if ( exists( $params{'Date Added'} ) ) {
-        dateAdded( $self, $params{'Date Added'} );
-    } if ( exists( $params{'Bit Rate'} ) ) {
-        bitRate( $self, $params{'Bit Rate'} );
-    } if ( exists( $params{'Sample Rate'} ) ) {
-        sampleRate( $self, $params{'Sample Rate'} );
-    } if ( exists( $params{'Play Count'} ) ) {
-        playCount( $self, $params{'Play Count'} );
-    } if ( exists( $params{'Play Date'} ) ) {
-        playDate( $self, $params{'Play Date'} );
-    } if ( exists( $params{'Play Date UTC'} ) ) {
-        playDateUTC( $self, $params{'Play Date UTC'} );
-    } if ( exists( $params{'Rating'} ) ) {
-        rating( $self, $params{'Rating'} );
-    } if ( exists( $params{'Persistent ID'} ) ) {
-        persistentID( $self, $params{'Persistent ID'} );
-    } if ( exists( $params{'Track Type'} ) ) {
-        trackType( $self, $params{'Track Type'} );
-    } if ( exists( $params{'Location'} ) ) {
-        location( $self, $params{'Location'} );
-    } if ( exists( $params{'File Folder Count'} ) ) {
-        fileFolderCount( $self, $params{'File Folder Count'} );
-    } if ( exists( $params{'Library Folder Count'} ) ) {
-        libraryFolderCount( $self, $params{'Library Folder Count'} );
+    foreach my $param (keys %params) {
+        next unless (defined $param);
+
+        switch ($param) {
+            case 'Track ID' { trackID($self, $params{'Track ID'}) }
+            case 'Name' { name($self, $params{'Name'}) }
+            case 'Artist' { artist($self, $params{'Artist'}) }
+            case 'Album Artist' { albumArtist($self, $params{'Album Artist'}) }
+            case 'Composer' { composer($self, $params{'Composer'}) }
+            case 'Album' { album($self, $params{'Album'}) }
+            case 'Genre' { genre($self, $params{'Genre'}) }
+            case 'Kind' { kind($self, $params{'Kind'}) }
+            case 'Size' { size($self, $params{'Size'}) }
+            case 'Total Time' { totalTime($self, $params{'Total Time'}) }
+            case 'Year' { year($self, $params{'Year'}) }
+            case 'Date Modified' {
+                   dateModified($self, $params{'Date Modified'}) }
+            case 'Date Added' { dateAdded($self, $params{'Date Added'}) }
+            case 'Bit Rate' { bitRate($self, $params{'Bit Rate'}) }
+            case 'Sample Rate' { sampleRate($self, $params{'Sample Rate'}) }
+            case 'Play Count' { playCount($self, $params{'Play Count'}) }
+            case 'Play Date' { playDate($self, $params{'Play Date'}) }
+            case 'Play Date UTC' {
+                   playDateUTC($self, $params{'Play Date UTC'}) }
+            case 'Skip Count' { skipCount($self, $params{'Skip Count'}) }
+            case 'Skip Date' { skipDate($self, $params{'Skip Date'}) }
+            case 'Rating' { rating($self, $params{'Rating'}) }
+            case 'Album Rating' { albumRating($self, $params{'Album Rating'}) }
+            case 'Album Rating Computed' {
+                    albumRatingComputed($self, $params{'Album Rating Computed'}) }
+            case 'Compilation' { compilation($self, $params{'Compilation'}) }
+            case 'Persistent ID' {
+                   persistentID($self, $params{'Persistent ID'}) }
+            case 'Track Type' { trackType($self, $params{'Track Type'}) }
+            case 'Location' { location($self, $params{'Location'}) }
+            case 'File Folder Count' {
+                   fileFolderCount($self, $params{'File Folder Count'}) }
+            case 'Library Folder Count' {
+                    libraryFolderCount($self, $params{'Library Folder Count'}) }
+            else {print "Param that I can't handle: $param\n"}
+        }
     }
 
     return $self;
@@ -412,7 +417,7 @@ sub dateAdded {
     return $self->{'Date Added'};
 } #dateAdded
 
-=item dateAdded( $dateAdded )
+=item bitRate( $bitRate )
 
 Get/set the Date Added attribute for this item.
 
@@ -507,6 +512,44 @@ sub playDateUTC {
     return $self->{'Play Date UTC'};
 } #playDateUTC
 
+=item skipCount( $skipCount )
+
+Get/set the Skip Count attribute for this item.
+
+=cut
+
+sub skipCount {
+    my $self = shift;
+
+    if (@_) {
+        my $skipCount = shift;
+        return carp "$skipCount isn't a valid Skip Count"
+            unless ($skipCount =~ /\d{1,2}/);
+        $self->{'Skip Count'} = $skipCount;
+    }
+
+    return $self->{'Skip Count'};
+} #skipCount
+
+=item skipDate( $skipDate )
+
+Get/set the Skip Date attribute for this item.
+
+=cut
+
+sub skipDate {
+    my $self = shift;
+
+    if (@_) {
+        my $skipDate = shift;
+        return carp "$skipDate isn't a valid Skip Date"
+            unless ($skipDate =~ /$dateRegex/);
+        $self->{'Skip Date'} = $skipDate;
+    }
+
+    return $self->{'Skip Date'};
+} #skipDate
+
 =item rating( $rating )
 
 Get/set the Rating attribute for this item.
@@ -525,6 +568,59 @@ sub rating {
 
     return $self->{'Rating'};
 } #rating
+
+=item albumRating( $albumRating )
+
+Get/set the Album Rating attribute for this item.
+
+=cut
+
+sub albumRating {
+    my $self = shift;
+
+    if (@_) {
+        my $albumRating = shift;
+        return carp "$albumRating isn't a valid Album Rating"
+            unless ($albumRating =~ /\d{1,3}/);
+        $self->{'Album Rating'} = $albumRating;
+    }
+
+    return $self->{'Album Rating'};
+} #albumRating
+
+=item albumRatingComputed( $albumRatingComputed )
+
+Get/set the Album Rating Computed attribute for this item.
+
+=cut
+
+sub albumRatingComputed {
+    my $self = shift;
+
+    if (@_) {
+        my $albumRatingComputed = shift;
+        $self->{'Album Rating Computed'} = $albumRatingComputed;
+    }
+
+    return $self->{'Album Rating Computed'};
+} #albumRatingComputed
+
+=item compilation( $albumRatingComputed )
+
+Get/set the Compilation attribute for this item.
+
+=cut
+
+sub compilation {
+    my $self = shift;
+
+    if (@_) {
+        my $compilation = shift;
+        $self->{'Compilation'} = $compilation;
+    }
+
+    return $self->{'Compilation'};
+} #compilation
 
 =item persistentID( $persistentID )
 
@@ -634,8 +730,8 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 61 $
-$Date: 2009-04-27 22:40:34 -0700 (Mon, 27 Apr 2009) $
+$Revision: 67 $
+$Date: 2009-05-03 22:31:22 -0700 (Sun, 03 May 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE
