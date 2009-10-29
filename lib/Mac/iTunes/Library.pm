@@ -11,7 +11,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.5';
+our $VERSION = '0.6';
 
 =head1 NAME
 
@@ -69,7 +69,8 @@ sub new {
         Genre => {},        # Genre counts by tracks
         PGenre => {},       # Genre counts by playcount
         Type => {},         # Track types, file or URL
-        Items => {}
+        Items => {},
+        Playlists => {},
     };
 
     bless $self, $class;
@@ -457,6 +458,10 @@ sub _item {
         # First occurrence of this artist
         $self->{'Items'}{$artist}{$name} = [$item];
     }
+
+    # print "creating item: " . $item->trackID . "\n";
+    $self->{'ItemsById'}{$item->trackID} = \$item;  # TODO: this should be a ref
+
 } #_item
 
 =item add( Mac::iTunes::Library::Item )
@@ -499,6 +504,18 @@ sub add {
     $self->_item($item);
 } #add
 
+sub addPlaylist {
+    my $self = shift;
+    my $playlist = shift;
+
+    $self->{'Playlists'}->{ $playlist->{'Playlist ID'} } = $playlist;
+}
+
+sub playlists {
+    my $self = shift;
+    return %{$self->{'Playlists'}};
+}
+
 1;
 
 =head1 SEE ALSO
@@ -510,10 +527,18 @@ L<Mac::iTunes::Library::Playlist>
 
 Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
+=head1 CONTRIBUTORS
+
+Mark Grimes <mgrimes@cpan.org>, http://www.peculiarities.com
+
+=head1 SOURCE REPOSITORY
+
+http://mac-itunes.googlecode.com
+
 =head1 SVN INFO
 
-$Revision: 67 $
-$Date: 2009-05-03 22:31:22 -0700 (Sun, 03 May 2009) $
+$Revision: 72 $
+$Date: 2009-10-28 22:10:20 -0700 (Wed, 28 Oct 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE

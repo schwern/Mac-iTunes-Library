@@ -125,7 +125,7 @@ sub by_number {
 
 =head1 SEE ALSO
 
-L<Mac::iTunes>
+L<Mac::iTunes::Library>
 
 =head1 AUTHOR
 
@@ -133,8 +133,8 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 
 =head1 SVN INFO
 
-$Revision: 60 $
-$Date: 2009-04-27 22:34:00 -0700 (Mon, 27 Apr 2009) $
+$Revision: 72 $
+$Date: 2009-10-28 22:10:20 -0700 (Wed, 28 Oct 2009) $
 $Author: drewgstephens $
 
 =cut
