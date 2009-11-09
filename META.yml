@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Mac-iTunes-Library
-version:            0.6
+version:            0.61
 abstract:           Interact with iTunes libraries in Perl
 author:
     - Drew Stephens <drew@dinomite.net>
