@@ -3,8 +3,8 @@
 
 =head1 SVN INFO
 
-$Revision: 72 $
-$Date: 2009-10-28 22:10:20 -0700 (Wed, 28 Oct 2009) $
+$Revision: 76 $
+$Date: 2009-11-13 15:40:07 -0500 (Fri, 13 Nov 2009) $
 $Author: drewgstephens $
 
 =head1 AUTHOR
@@ -21,11 +21,6 @@ BEGIN { use_ok('Mac::iTunes::Library::XML') };
 #########################
 
 my $lib = Mac::iTunes::Library::XML->parse('t/iTunes_Music_Library.xml');
-
-use Data::Dump;
-
-# dd $lib;
-# dd $lib->playlists;
 
 my %playlists = $lib->playlists;
 is( scalar keys %playlists, 2, 'playlist count' );
