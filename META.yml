@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Mac-iTunes-Library
-version:            0.62
+version:            0.7
 abstract:           Interact with iTunes libraries in Perl
 author:
     - Drew Stephens <drew@dinomite.net>
@@ -16,7 +16,7 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.52
+generated_by:       ExtUtils::MakeMaker version 6.54
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

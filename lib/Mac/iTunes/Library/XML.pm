@@ -16,7 +16,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw( );
 
-our $VERSION = '0.62';
+our $VERSION = '0.7';
 
 =head1 NAME
 
@@ -39,7 +39,7 @@ None by default.
 
 =head1 METHODS
 
-=item parse( $libraryFile )
+=head2 parse( $libraryFile )
 
 Parses an iTunes XML library and returns a Mac::iTunes::Library object.
 
@@ -148,8 +148,10 @@ sub end_element {
             }
             $item->{$curKey} = $characters;
             $characters = undef;
+            $curKey = undef;
         } elsif ( $element =~ /true/ ) {
             $item->{$curKey} = 1;
+            $curKey = undef;
         }
     } elsif ( $depth == 6 ){
     } elsif ( $depth == 7 ){
@@ -221,8 +223,8 @@ sub characters {
     } elsif ( $depth == 4 ) {
     } elsif ( $depth == 5 ) {
         if ( $stack[$#stack] eq 'key' ) {
-            # Grab the key's name; always comes in a single chunk
-            $curKey = $string;
+            # Grab the key's name; Normally comes in a single chunk, but accept multiple chunks
+            $curKey .= $string;
         } elsif ( $stack[$#stack] =~ /(integer|string|date)/ ) {
             # Append it to the characters that we've gathered so far
             $characters .= $string;
@@ -230,8 +232,8 @@ sub characters {
     } elsif ( $depth == 6 ) {
     } elsif ( $depth == 7 ) {
         if ( $stack[$#stack] eq 'key' ) {
-            # Grab the key's name; always comes in a single chunk
-            $curKey = $string;
+            # Grab the key's name; Normally comes in a single chunk, but accept multiple chunks
+            $curKey .= $string;
         } elsif ( $stack[$#stack] =~ /(integer|string|date)/ ) {
             # Append it to the characters that we've gathered so far
             $characters .= $string;
@@ -258,6 +260,7 @@ Drew Stephens <drew@dinomite.net>, http://dinomite.net
 =head1 CONTRIBUTORS
 
 Mark Grimes <mgrimes@cpan.org>, http://www.peculiarities.com
+Garrett Scott <garrett@gothik.org>, http://www.gothik.org
 
 =head1 SOURCE REPOSITORY
 
@@ -265,8 +268,8 @@ http://mac-itunes.googlecode.com
 
 =head1 SVN INFO
 
-$Revision: 76 $
-$Date: 2009-11-13 15:40:07 -0500 (Fri, 13 Nov 2009) $
+$Revision: 78 $
+$Date: 2009-12-30 10:33:01 -0700 (Wed, 30 Dec 2009) $
 $Author: drewgstephens $
 
 =head1 COPYRIGHT AND LICENSE
