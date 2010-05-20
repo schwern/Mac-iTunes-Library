@@ -12,7 +12,7 @@ $Author: drewgstephens $
 #########################
 use lib ".";
 use 5;
-use Test::More tests => 32;
+use Test::More tests => 34;
 BEGIN { use_ok('Mac::iTunes::Library::Item') };
 #########################
 
@@ -46,7 +46,9 @@ my %values = (
     'Track Type' => 'File',
     'Location' => 'file://localhost/Users/dinomite/Music/Artist%20Name/Track%20Name.mp3',
     'File Folder Count' => 4,
-    'Library Folder Count' => 1
+    'Library Folder Count' => 1,
+    'Track Number'      => 3,
+    'Track Count'       => 21,
 );
 
 # Create a new item
@@ -86,3 +88,5 @@ is($item->trackType(), $values{'Track Type'}, 'Get Track Type');
 is($item->location(), $values{'Location'}, 'Get Location');
 is($item->fileFolderCount(), $values{'File Folder Count'}, 'Get File Folder Count');
 is($item->libraryFolderCount(), $values{'Library Folder Count'}, 'Get Total Time');
+is($item->trackCount(), $values{'Track Count'}, 'Get Track Count');
+is($item->trackNumber(), $values{'Track Number'}, 'Get Track Number');
